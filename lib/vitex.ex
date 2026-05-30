@@ -1,4 +1,6 @@
 defmodule Vitex do
+  @manifest_relative_path Path.join(~w(static assets manifest.json))
+
   @moduledoc """
   Phoenix integration with Vite.
 
@@ -219,10 +221,34 @@ defmodule Vitex do
   end
 
   defp get_manifest_path do
-    Application.get_env(
-      :vitex,
-      :manifest_path,
+    Application.get_env(:vitex, :manifest_path) ||
+      manifest_path_from_otp_app(Application.get_env(:vitex, :otp_app)) ||
+      manifest_path_from_otp_app(infer_phoenix_otp_app()) ||
       Path.join([File.cwd!(), "priv", "static", "assets", "manifest.json"])
-    )
+  end
+
+  defp manifest_path_from_otp_app(nil), do: nil
+
+  defp manifest_path_from_otp_app(otp_app) when is_atom(otp_app) do
+    case :code.priv_dir(otp_app) do
+      priv_dir when is_list(priv_dir) -> Path.join(to_string(priv_dir), @manifest_relative_path)
+      {:error, _reason} -> nil
+    end
+  end
+
+  defp manifest_path_from_otp_app(_otp_app), do: nil
+
+  defp infer_phoenix_otp_app do
+    Application.loaded_applications()
+    |> Enum.map(fn {app, _description, _version} -> app end)
+    |> Enum.find(&phoenix_endpoint_configured?/1)
+  end
+
+  defp phoenix_endpoint_configured?(app) do
+    app
+    |> Application.get_all_env()
+    |> Enum.any?(fn {key, value} ->
+      is_atom(key) and Keyword.keyword?(value) and Keyword.has_key?(value, :cache_static_manifest)
+    end)
   end
 end
