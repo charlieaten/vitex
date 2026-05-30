@@ -214,7 +214,7 @@ defmodule Mix.Tasks.Vitex.InstallTest do
       assert_file_contains(project, "assets/package.json", ~s["build": "vite build"])
 
       # Check for Vite dependency
-      assert_file_contains(project, "assets/package.json", ~s["vite": "^7.0.0"])
+      assert_file_contains(project, "assets/package.json", ~s["vite": "^8.0.0"])
     end
 
     test "adds React dependencies when --react is specified" do

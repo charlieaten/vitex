@@ -617,7 +617,7 @@ if Code.ensure_loaded?(Igniter) do
     end
 
     defp build_dependencies(features) do
-      deps = %{"vite" => "^7.0.0"}
+      deps = %{"vite" => "^8.0.0"}
 
       deps = if features.topbar, do: Map.put(deps, "topbar", "^3.0.0"), else: deps
 

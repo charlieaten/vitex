@@ -1,4 +1,3 @@
-
 <div align="center">
 <h1 align="center">
 Vitex
@@ -117,7 +116,7 @@ mix igniter.install vitex --react --typescript --tls --bun
 #### Installation Options
 
 - `--react` - Enable React with Fast Refresh support
-- `--typescript` - Enable TypeScript support  
+- `--typescript` - Enable TypeScript support
 - `--inertia` - Enable Inertia.js for building SPAs (automatically includes React)
 - `--shadcn` - Enable shadcn/ui component library (requires TypeScript and React/Inertia)
 - `--base-color` - Set shadcn/ui theme color: neutral (default), gray, zinc, stone, or slate
@@ -126,6 +125,7 @@ mix igniter.install vitex --react --typescript --tls --bun
 - `--ssr` - Enable Server-Side Rendering support
 
 The installer will:
+
 - Create `vite.config.js` with appropriate settings
 - Update `package.json` with necessary dependencies
 - Configure Phoenix watchers for development
@@ -150,21 +150,21 @@ end
 2. Create `assets/vite.config.js`:
 
 ```javascript
-import { defineConfig } from 'vite'
-import phoenix from '../deps/vitex/priv/static/vitex'
+import { defineConfig } from "vite";
+import phoenix from "../deps/vitex/priv/static/vitex";
 
 export default defineConfig({
   plugins: [
     phoenix({
-      input: ['js/app.js', 'css/app.css'],
-      publicDirectory: '../priv/static',
-      buildDirectory: 'assets',
-      hotFile: '../priv/hot',
-      manifestPath: '../priv/static/assets/manifest.json',
-      refresh: true
-    })
+      input: ["js/app.js", "css/app.css"],
+      publicDirectory: "../priv/static",
+      buildDirectory: "assets",
+      hotFile: "../priv/hot",
+      manifestPath: "../priv/static/assets/manifest.json",
+      refresh: true,
+    }),
   ],
-})
+});
 ```
 
 3. Update `assets/package.json`:
@@ -179,7 +179,7 @@ export default defineConfig({
     "build": "vite build"
   },
   "dependencies": {
-    "vite": "^7.0.0"
+    "vite": "^8.0.0"
   }
 }
 ```
@@ -245,20 +245,20 @@ Configure Vite for React:
 
 ```javascript
 // vite.config.js
-import { defineConfig } from 'vite'
-import phoenix from '../deps/vitex/priv/static/vitex'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import phoenix from "../deps/vitex/priv/static/vitex";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [
     react(),
     phoenix({
-      input: ['js/app.jsx', 'css/app.css'],
+      input: ["js/app.jsx", "css/app.css"],
       reactRefresh: true,
       // ... other options
-    })
+    }),
   ],
-})
+});
 ```
 
 ### TypeScript Support
@@ -270,11 +270,11 @@ Vitex supports TypeScript out of the box:
 export default defineConfig({
   plugins: [
     phoenix({
-      input: ['js/app.ts', 'css/app.css'],
+      input: ["js/app.ts", "css/app.css"],
       // ... other options
-    })
+    }),
   ],
-})
+});
 ```
 
 Create `assets/tsconfig.json`:
@@ -311,17 +311,17 @@ end
 
 ```jsx
 // assets/js/pages/Users/Index.jsx
-import React from 'react'
+import React from "react";
 
 export default function UsersIndex({ users }) {
   return (
     <div>
       <h1>Users</h1>
-      {users.map(user => (
+      {users.map((user) => (
         <div key={user.id}>{user.name}</div>
       ))}
     </div>
-  )
+  );
 }
 ```
 
@@ -330,6 +330,7 @@ export default function UsersIndex({ users }) {
 Vitex supports [shadcn/ui](https://ui.shadcn.com/), a collection of reusable components built with Radix UI and Tailwind CSS.
 
 **Requirements:**
+
 - TypeScript must be enabled (`--typescript`)
 - Either React (`--react`) or Inertia.js (`--inertia`) must be enabled
 
@@ -342,6 +343,7 @@ mix igniter.install vitex --typescript --react --shadcn --base-color slate
 ```
 
 The installer will:
+
 - Configure path aliases for component imports
 - Initialize shadcn/ui with your chosen theme
 - Set up CSS variables for theming
@@ -357,8 +359,8 @@ cd assets && npx shadcn@latest add card dialog
 **Usage in your React components:**
 
 ```tsx
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function MyComponent() {
   return (
@@ -370,11 +372,12 @@ export default function MyComponent() {
         <Button variant="outline">Click me</Button>
       </CardContent>
     </Card>
-  )
+  );
 }
 ```
 
 **Path Aliases:**
+
 - `@` - Root JavaScript directory (`assets/js`)
 - `@/components` - Component directory
 - `@/lib` - Utility functions
@@ -389,12 +392,12 @@ Enable SSR in your Vite config:
 export default defineConfig({
   plugins: [
     phoenix({
-      input: ['js/app.js', 'css/app.css'],
-      ssr: 'js/ssr.js',
+      input: ["js/app.js", "css/app.css"],
+      ssr: "js/ssr.js",
       // ... other options
-    })
+    }),
   ],
-})
+});
 ```
 
 Build your SSR bundle:
@@ -412,26 +415,26 @@ The Phoenix Vite plugin accepts the following options:
 ```javascript
 phoenix({
   // Entry files (required)
-  input: ['js/app.js', 'css/app.css'],
+  input: ["js/app.js", "css/app.css"],
 
   // Output directories
-  publicDirectory: '../priv/static',
-  buildDirectory: 'assets',
+  publicDirectory: "../priv/static",
+  buildDirectory: "assets",
 
   // Development server
-  hotFile: '../priv/hot',
+  hotFile: "../priv/hot",
   detectTls: true, // Auto-detect local certificates
 
   // Build options
-  manifestPath: '../priv/static/assets/manifest.json',
+  manifestPath: "../priv/static/assets/manifest.json",
 
   // Features
   refresh: true, // Enable full page reload on blade/heex changes
   reactRefresh: true, // Enable React Fast Refresh
 
   // SSR
-  ssr: 'js/ssr.js', // SSR entry point
-})
+  ssr: "js/ssr.js", // SSR entry point
+});
 ```
 
 ### TLS/HTTPS Setup
@@ -442,7 +445,7 @@ Vitex can automatically detect local TLS certificates. Enable with:
 phoenix({
   detectTls: true,
   // ... other options
-})
+});
 ```
 
 For manual TLS configuration, see the [TLS setup guide](priv/vitex/docs/tls-setup.md).
@@ -461,13 +464,17 @@ Vitex respects the following environment variables:
 Vitex supports two approaches for package management:
 
 #### System Package Managers (Default)
+
 By default, Vitex detects and uses whatever package manager is installed on your system (npm, pnpm, yarn, or bun). The installer will:
+
 - Detect your system package manager automatically
 - Configure watchers to use `node_modules/.bin/vite`
 - Run `npm install` (or equivalent) during setup
 
 #### Elixir-Managed Bun (--bun flag)
+
 When you use the `--bun` flag, Vitex integrates with the [Elixir bun package](https://hex.pm/packages/bun):
+
 - Adds `{:bun, "~> 1.5", runtime: Mix.env() == :dev}` to your dependencies
 - Downloads and manages the bun executable at `_build/bun`
 - Uses Bun workspaces for Phoenix JS dependencies
@@ -475,6 +482,7 @@ When you use the `--bun` flag, Vitex integrates with the [Elixir bun package](ht
 - Mix tasks handle the bun installation lifecycle
 
 Example with Bun:
+
 ```bash
 # Install with Bun support
 mix igniter.install vitex --bun
@@ -490,6 +498,7 @@ mix bun build            # Build assets for production
 Vitex provides several Mix tasks:
 
 ### `mix vitex`
+
 Run Vite commands directly:
 
 ```bash
@@ -499,6 +508,7 @@ mix vitex preview      # Preview production build
 ```
 
 ### `mix vitex.install`
+
 Install and configure Vitex (requires Igniter):
 
 ```bash
@@ -515,6 +525,7 @@ Options:
 ```
 
 ### `mix vitex.build`
+
 Build assets for production:
 
 ```bash
@@ -522,6 +533,7 @@ mix vitex.build
 ```
 
 ### `mix vitex.ssr.build`
+
 Build SSR bundle:
 
 ```bash
@@ -533,6 +545,7 @@ mix vitex.ssr.build
 Vitex provides the following helper functions:
 
 ### `Vitex.vite_assets/1`
+
 Generate script/link tags for entries:
 
 ```elixir
@@ -545,6 +558,7 @@ Vitex.vite_assets(["js/app.js", "js/admin.js"])
 ```
 
 ### `Vitex.vite_client/0`
+
 Enable HMR in development:
 
 ```elixir
@@ -554,6 +568,7 @@ Vitex.vite_client()
 ```
 
 ### `Vitex.react_refresh/0`
+
 Enable React Fast Refresh:
 
 ```elixir
@@ -562,6 +577,7 @@ Vitex.react_refresh()
 ```
 
 ### `Vitex.asset_path/1`
+
 Get the URL for an asset:
 
 ```elixir
@@ -571,6 +587,7 @@ Vitex.asset_path("images/logo.png")
 ```
 
 ### `Vitex.hmr_enabled?/0`
+
 Check if HMR is active:
 
 ```elixir
@@ -590,20 +607,20 @@ Build SPAs with client-side routing:
 export default defineConfig({
   plugins: [
     phoenix({
-      input: ['js/app.jsx'],
+      input: ["js/app.jsx"],
       // ... other options
-    })
+    }),
   ],
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom']
-        }
-      }
-    }
-  }
-})
+          vendor: ["react", "react-dom", "react-router-dom"],
+        },
+      },
+    },
+  },
+});
 ```
 
 ### Tailwind CSS
@@ -612,16 +629,16 @@ Vitex works great with Tailwind CSS v4:
 
 ```javascript
 // vite.config.js
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
     phoenix({
       // ... options
-    })
+    }),
   ],
-})
+});
 ```
 
 ### Multiple Entry Points
@@ -630,14 +647,9 @@ Support multiple sections of your app:
 
 ```javascript
 phoenix({
-  input: [
-    'js/app.js',
-    'js/admin.js',
-    'css/app.css',
-    'css/admin.css'
-  ],
+  input: ["js/app.js", "js/admin.js", "css/app.css", "css/admin.css"],
   // ... other options
-})
+});
 ```
 
 ### Code Splitting
@@ -646,12 +658,12 @@ Vite automatically handles code splitting for dynamic imports:
 
 ```javascript
 // Lazy load a component
-const AdminPanel = lazy(() => import('./components/AdminPanel'))
+const AdminPanel = lazy(() => import("./components/AdminPanel"));
 
 // Dynamic import based on route
-if (route === '/admin') {
-  const { initAdmin } = await import('./admin')
-  initAdmin()
+if (route === "/admin") {
+  const { initAdmin } = await import("./admin");
+  initAdmin();
 }
 ```
 
@@ -660,21 +672,25 @@ if (route === '/admin') {
 ### Common Issues
 
 **Vite dev server not starting**
+
 - Check that Node.js is installed (v18+ recommended)
 - Ensure `assets/package.json` exists
 - Run `npm install` in the assets directory
 
 **Assets not loading in production**
+
 - Run `mix vitex.build` before deploying
 - Check that manifest.json is generated in `priv/static/assets/`
 - Ensure `priv/static` is included in your release
 
 **HMR not working**
+
 - Verify Vite dev server is running (check `priv/hot` file)
 - Check browser console for connection errors
 - Ensure `Vitex.vite_client()` is included in your layout
 
 **TypeScript errors**
+
 - Vite doesn't type-check by default (for speed)
 - Use your editor's TypeScript integration
 - Run `tsc --noEmit` for full type checking
